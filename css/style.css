@@ -379,6 +379,58 @@ textarea { resize: vertical; min-height: 80px; }
   color: var(--text-muted);
 }
 
+/* === Rest Timer === */
+.rest-timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  margin: 12px 0;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+
+.rest-timer.running {
+  border-color: var(--yellow);
+  background: rgba(210, 153, 34, 0.08);
+}
+
+.rest-timer.done {
+  border-color: var(--green);
+  background: rgba(63, 185, 80, 0.08);
+}
+
+.rest-timer-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.rest-timer-display {
+  font-size: 2.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  line-height: 1;
+}
+
+.rest-timer.running .rest-timer-display {
+  color: var(--yellow);
+}
+
+.rest-timer.done .rest-timer-display {
+  color: var(--green);
+  font-size: 3rem;
+}
+
+.rest-timer-btn {
+  padding: 8px 24px;
+  font-size: 0.85rem;
+}
+
 .btn-row {
   display: flex;
   gap: 8px;

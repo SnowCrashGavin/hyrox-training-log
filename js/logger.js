@@ -80,6 +80,15 @@ export function renderLogger(container, onSaved) {
   // Stations
   html += `<div class="logger-section"><h3>Station Block</h3>`;
   for (let r = 0; r < WORKOUT_TEMPLATE.stations.rounds; r++) {
+    // Rest timer between rounds
+    if (r > 0) {
+      html += `
+        <div class="rest-timer" id="rest-timer-${r}">
+          <div class="rest-timer-label">Rest between rounds</div>
+          <div class="rest-timer-display" id="rest-display-${r}">1:30</div>
+          <button class="btn rest-timer-btn" id="rest-btn-${r}">Start 90s Rest</button>
+        </div>`;
+    }
     html += `<div class="round-header">Round ${r + 1}</div>`;
     for (let e = 0; e < WORKOUT_TEMPLATE.stations.exercises.length; e++) {
       const ex = WORKOUT_TEMPLATE.stations.exercises[e];
@@ -135,6 +144,15 @@ export function renderLogger(container, onSaved) {
       } else {
         cb.innerHTML = '';
       }
+    });
+  });
+
+  // Rest timer buttons
+  container.querySelectorAll('.rest-timer-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const id = btn.id.replace('rest-btn-', '');
+      startRestTimer(container, id);
     });
   });
 
@@ -247,4 +265,48 @@ function buildMarkdown(container) {
 function isChecked(container, id) {
   const cb = container.querySelector(`#cb-${id}`);
   return cb && cb.classList.contains('checked');
+}
+
+const activeTimers = {};
+
+function startRestTimer(container, id) {
+  const display = container.querySelector(`#rest-display-${id}`);
+  const btn = container.querySelector(`#rest-btn-${id}`);
+  const timerEl = container.querySelector(`#rest-timer-${id}`);
+
+  // If already running, reset
+  if (activeTimers[id]) {
+    clearInterval(activeTimers[id]);
+    delete activeTimers[id];
+  }
+
+  let remaining = 90;
+  btn.textContent = 'Reset';
+  timerEl.classList.add('running');
+  display.textContent = formatTime(remaining);
+
+  activeTimers[id] = setInterval(() => {
+    remaining--;
+    display.textContent = formatTime(remaining);
+
+    if (remaining <= 0) {
+      clearInterval(activeTimers[id]);
+      delete activeTimers[id];
+      timerEl.classList.remove('running');
+      timerEl.classList.add('done');
+      display.textContent = 'GO!';
+      btn.textContent = 'Restart';
+
+      // Vibrate if available (mobile)
+      if (navigator.vibrate) {
+        navigator.vibrate([200, 100, 200, 100, 400]);
+      }
+    }
+  }, 1000);
+}
+
+function formatTime(seconds) {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${s.toString().padStart(2, '0')}`;
 }
