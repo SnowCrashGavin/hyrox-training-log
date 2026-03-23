@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Hyrox Training Log</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header id="app-header">
+    <div class="header-left">
+      <button id="back-btn" class="icon-btn hidden" aria-label="Back">&#8592;</button>
+      <h1 id="page-title">Hyrox Log</h1>
+    </div>
+    <div class="header-right">
+      <button id="settings-btn" class="icon-btn" aria-label="Settings">&#9881;</button>
+    </div>
+  </header>
+
+  <main id="app"></main>
+
+  <!-- Auth modal -->
+  <div id="auth-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Connect to GitHub</h2>
+      <p>Enter a <a href="https://github.com/settings/tokens?type=beta" target="_blank">fine-grained PAT</a> with <strong>Issues read/write</strong> access to your training repo.</p>
+      <input type="password" id="pat-input" placeholder="github_pat_..." autocomplete="off">
+      <div class="input-row">
+        <input type="text" id="owner-input" placeholder="GitHub username" value="SnowCrashGavin">
+        <input type="text" id="repo-input" placeholder="Repo name" value="hyrox-training-log">
+      </div>
+      <button id="auth-save" class="btn primary">Connect</button>
+      <p id="auth-error" class="error hidden"></p>
+    </div>
+  </div>
+
+  <!-- Settings modal -->
+  <div id="settings-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Settings</h2>
+      <p>Connected as <strong id="settings-user">—</strong></p>
+      <p>Repo: <strong id="settings-repo">—</strong></p>
+      <button id="disconnect-btn" class="btn danger">Disconnect</button>
+      <button id="settings-close" class="btn">Close</button>
+    </div>
+  </div>
+
+  <nav id="tab-bar">
+    <button class="tab active" data-view="dashboard">
+      <span class="tab-icon">&#9776;</span>
+      <span class="tab-label">Workouts</span>
+    </button>
+    <button class="tab" data-view="logger">
+      <span class="tab-icon">&#43;</span>
+      <span class="tab-label">Log</span>
+    </button>
+  </nav>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
