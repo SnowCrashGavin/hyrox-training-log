@@ -2,37 +2,38 @@ import { createWorkout, updateWorkout, getWorkout } from './github.js';
 
 const WORKOUT_TEMPLATE = {
   warmup: [
-    '2 min easy bike or row',
+    '2 min easy row',
     '10 bodyweight squats',
     '10 leg swings each side',
-    '10 arm circles each direction',
+    '10 cat-cows',
   ],
   cardio: {
     intervals: 5,
     duration: '2 min hard / 90s easy',
+    defaultMachine: 'rower',
   },
   stations: {
     rounds: 3,
     exercises: [
       { name: 'DB Thrusters', reps: 'x 12', hasWeight: true },
       { name: 'Farmer carry', reps: 'x 30m', hasWeight: true },
-      { name: 'Burpees', reps: 'x 10', hasWeight: false },
-      { name: 'Seated cable rows', reps: 'x 15', hasWeight: true },
+      { name: 'Burpees (step-back)', reps: 'x 10', hasWeight: false },
+      { name: 'Bent-over DB rows', reps: 'x 15', hasWeight: true },
     ],
   },
   cooldown: [
-    'Easy walk or bike spin',
+    'Easy row, 2 min',
     'Hip flexor stretch, 30s each side',
-    'Pigeon stretch or figure-4, 30s each side',
+    'Child\'s pose, 30s',
+    'Pigeon stretch, 30s each side',
   ],
   feedback: [
-    'Hip — how did it feel during and after burpees?',
-    'Grip — did farmer carries fail grip before legs?',
-    'Thrusters — was the weight too light / right / heavy?',
-    'Cardio intervals — gassed or manageable?',
-    'Anything painful (vs. just hard)?',
-    'Overall energy level (1-10):',
-    'Anything you\'d change for next time?',
+    'Lower back — better, same, or worse than last time?',
+    'Farmer carry at new weight — grip hold the whole 30m?',
+    'Rower — how did it feel on the hips?',
+    'Step-back burpees — did that help the lower back?',
+    'Energy level (1-10):',
+    'Anything to change for next time?',
   ],
 };
 
@@ -65,7 +66,7 @@ export function renderLogger(container, onSaved) {
         <select id="log-machine" style="width:100%">
           <option value="">Select machine...</option>
           <option value="assault bike">Assault Bike</option>
-          <option value="rower">Rower</option>
+          <option value="rower" selected>Rower</option>
           <option value="spin bike">Spin Bike</option>
         </select>
       </div>
