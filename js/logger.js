@@ -98,7 +98,14 @@ export function renderLogger(container, onSaved) {
         <div class="check-row" data-id="${id}">
           <div class="checkbox" id="cb-${id}"></div>
           <span class="check-label">${ex.name} ${ex.reps}</span>
-          ${ex.hasWeight ? `<input type="number" class="weight-input" id="wt-${id}" placeholder="lbs" inputmode="numeric">` : ''}
+          ${ex.hasWeight ? `
+            <div class="weight-group">
+              <input type="number" class="weight-input" id="wt-${id}" placeholder="wt" inputmode="numeric">
+              <select class="unit-select" id="unit-${id}">
+                <option value="lbs" selected>lbs</option>
+                <option value="kg">kg</option>
+              </select>
+            </div>` : ''}
         </div>`;
     }
   }
@@ -232,7 +239,9 @@ function buildMarkdown(container) {
       const weight = weightEl ? weightEl.value.trim() : '';
       let text = `${ex.name} ${ex.reps}`;
       if (ex.hasWeight) {
-        text += ` — weight: ${weight || '___'} lbs`;
+        const unitEl = container.querySelector(`#unit-${id}`);
+        const unit = unitEl ? unitEl.value : 'lbs';
+        text += ` — weight: ${weight || '___'} ${unit}`;
       }
       lines.push(`- [${checked ? 'x' : ' '}] ${text}`);
     });
